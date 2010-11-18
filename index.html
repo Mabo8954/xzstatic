@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!--jQuery Core and UI lib-->
+<link type="text/css" href="css/ui-lightness/jquery-ui-1.8.5.custom.css" rel="stylesheet">
+<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.5.custom.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#uploadarea,#loveradio,#workradio,#luckradio,#btn').buttonset();
+	$('#subbtn').click(function(){	
+		$.ajax({
+		url:'create_user_xml.php',
+		type:'POST',
+		data:({xz:$("#uploadarea input:radio:checked").val(),love:$("#loveradio input:radio:checked").val(),work:$("#workradio input:radio:checked").val(),luck:$("#luckradio input:radio:checked").val()}),
+		dataType: "html"
+		});
+		$('#loveradio,#workradio,#luckradio,#subbtn').effect('shake');
+		$('#loveradio,#workradio,#luckradio,#subbtn').hide('slow');
+	});
+	$('#uploadarea').click(function(){
+		var count = 0;
+		$.ajax( {  
+		type: "GET",
+		url: "data/result.xml",
+		dataType: "xml",  
+		success:function(xml){
+			$(xml).find('xz').each( function(){ 
+				if($('#uploadarea input:radio:checked').val() == count ){
+					var love = $(this).find('love').text(); 
+					var work = $(this).find('work').text();
+					var luck = $(this).find('luck').text();
+					$('#resultcontain').text('Love: '+love+' Work: '+work+' Luck: '+luck+' .');
+				}
+				count +=1;
+			});
+		}});
+	});
+	
+});
+</script>
+
+<title>新版本星座统计0.03</title>
+<style type="text/css">
+<!--
+.STYLE1 {color: #CC0000}
+.STYLE2 {font-size: 14px}
+-->
+</style>
+</head>
+
+<body>
+<div id="header" style="background-color:#FFFFFF; font-family:微软雅黑,Arial,serif">
+    <p>@..全新的星座统计0.03  <a href="update.html" class="STYLE1">新版的日志系统</a> <a href="http://mabo8954.170.5ghl.cn/mabo/wordpress/">官网博客</a></p>
+    <p class="STYLE2">点击下方星座看平均指数，也可以提交自己的指数！</p>
+</div>
+<br>
+<div id="heart" style="background-color:#FFFFFF; width:650px; padding-top:10px; padding-bottom:10px; padding-left:10px; padding-right:10px">
+
+  <div id="uploadarea">
+  <input type="radio" name="xz" id="xz0" value="0" /><label for="xz0">魔羯</label>
+  <input type="radio" name="xz" id="xz1" value="1" /><label for="xz1">水瓶</label>
+  <input type="radio" name="xz" id="xz2" value="2" /><label for="xz2">双鱼</label>
+  <input type="radio" name="xz" id="xz3" value="3"  checked="checked"/><label for="xz3">牧羊</label>
+  <input type="radio" name="xz" id="xz4" value="4" /><label for="xz4">金牛</label>
+  <input type="radio" name="xz" id="xz5" value="5" /><label for="xz5">双子</label><br />
+  <input type="radio" name="xz" id="xz6" value="6" /><label for="xz6">巨蟹</label>
+  <input type="radio" name="xz" id="xz7" value="7" /><label for="xz7">狮子</label>
+  <input type="radio" name="xz" id="xz8" value="8" /><label for="xz8">处女</label>
+  <input type="radio" name="xz" id="xz9" value="9" /><label for="xz9">天枰</label>
+  <input type="radio" name="xz" id="xz10" value="10" /><label for="xz10">天蝎</label>
+  <input type="radio" name="xz" id="xz11" value="11" /><label for="xz11">射手</label><br /><br />
+  </div>
+  
+  		<div id="resultcontain" style="font-family:微软雅黑,Arial,serif; color: #FF0000"></div>
+  		<br />
+  		<table board="0">
+  		<tr>
+  		<td>
+		<div id="loveradio">
+  			<input type="radio" name="love" id="love1" value="1" /><label for="love1">1</label>
+  			<input type="radio" name="love" id="love2" value="2" /><label for="love2">2</label>
+  			<input type="radio" name="love" id="love3" value="3" /><label for="love3">3</label><br />
+  			<input type="radio" name="love" id="love4" value="4" /><label for="love4">4</label>
+  			<input type="radio" name="love" id="love5" value="5" checked="checked"/><label for="love5">Love</label>
+  			<input type="radio" name="love" id="love6" value="6" /><label for="love6">6</label><br />
+  			<input type="radio" name="love" id="love7" value="7" /><label for="love7">7</label>
+  			<input type="radio" name="love" id="love8" value="8" /><label for="love8">8</label>
+  			<input type="radio" name="love" id="love9" value="9" /><label for="love9">9</label>
+  			<input type="radio" name="love" id="love10" value="10" /><label for="love10">10</label><br />
+  		</div>
+  
+  		</td>
+  		<td>
+  		<div id="workradio">
+  			<input type="radio" name="work" id="work1" value="1" /><label for="work1">1</label>
+ 			 <input type="radio" name="work" id="work2" value="2" /><label for="work2">2</label>
+  			<input type="radio" name="work" id="work3" value="3" /><label for="work3">3</label><br />
+  			<input type="radio" name="work" id="work4" value="4" /><label for="work4">4</label>
+  			<input type="radio" name="work" id="work5" value="5" checked="checked"/><label for="work5">Work</label>
+  			<input type="radio" name="work" id="work6" value="6" /><label for="work6">6</label><br />
+  			<input type="radio" name="work" id="work7" value="7" /><label for="work7">7</label>
+  			<input type="radio" name="work" id="work8" value="8" /><label for="work8">8</label>
+ 			 <input type="radio" name="work" id="work9" value="9" /><label for="work9">9</label>
+  			<input type="radio" name="work" id="work10" value="10" /><label for="work10">10</label><br />
+  		</div>
+        
+  		</td><td>
+  		<div id="luckradio">
+  			<input type="radio" name="luck" id="luck1" value="1" /><label for="luck1">1</label>
+  			<input type="radio" name="luck" id="luck2" value="2" /><label for="luck2">2</label>
+  			<input type="radio" name="luck" id="luck3" value="3" /><label for="luck3">3</label><br />
+  			<input type="radio" name="luck" id="luck4" value="4" /><label for="luck4">4</label>
+  			<input type="radio" name="luck" id="luck5" value="5" checked="checked"/><label for="luck5">Luck</label>
+  			<input type="radio" name="luck" id="luck6" value="6" /><label for="luck6">6</label><br />
+			<input type="radio" name="luck" id="luck7" value="7" /><label for="luck7">7</label>
+  			<input type="radio" name="luck" id="luck8" value="8" /><label for="luck8">8</label>
+  			<input type="radio" name="luck" id="luck9" value="9" /><label for="luck9">9</label>
+  			<input type="radio" name="luck" id="luck10" value="10" /><label for="luck10">10</label><br />
+  		</div>
+  	</td></tr></table>
+  	<div id="btn"><button id="subbtn" value="GO" >GO!</button></div>
+</div>
+  
+<br /><br /><br><br>
+  
+<div id="footer" style=" background-color:#000000; width:650px;font-family:微软雅黑,Arial,serif; margin-bottom:10px; color:#FFFFFF ">
+Thanks<img src="css/logo_jquery_215x53.gif"/img>and its incredible UI lib<br />
+Create by mabo8954@gmail.com
+</div>
+
+</body>
+</html>

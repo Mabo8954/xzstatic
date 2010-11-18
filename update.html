@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!--TableCSS-->
+<link rel="stylesheet" href="css/bluedream.css" type="text/css"/>
+<!--jQuery Core and UI lib-->
+<link type="text/css" href="css/ui-lightness/jquery-ui-1.8.5.custom.css" rel="stylesheet">
+<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui-1.8.5.custom.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    //按钮事件
+    $('#subbtn').button();
+	/*点击输入框 提示文字
+	$('#log').click(
+	function(){
+		$(this).val('');
+	});
+	*/
+	var mb = 1;
+	
+	//读取XML格式日志
+	$.ajax( {  //利用ajax读取xml， 不同于php直接操作文件
+		type: "GET",
+		url: "log.xml",
+		cache: false,
+		dataType: "xml",  //参数可参考ajax文档
+		success:function(xml){
+			$(xml).find('logB').each( function(){  // each函数访问数组所有项
+				var date = $(this).find('date').text(); //基本的XML节点寻找和读取
+				var contain = $(this).find('contain').text();
+				var logLine = '<tr><th>'+date+'</th><th>'+contain+'</th></tr>';
+				var logLineOdd = '<tr class="odd"><th>'+date+'</th><th>'+contain+'</th></tr>';
+				if(mb>0){
+					$('#logTable').append(logLine); // 加在后面 不替换或删除
+				}else{
+					$('#logTable').append(logLineOdd);
+				}
+				mb = mb*(-1);
+			});
+	}});
+	
+	$('#subbtn').click(function(){
+		$.post('updatelog.php',{log:$('#log').val()},function(data){
+			$('#log').val('');
+			$('#logTable').text('');
+			$.ajax( {  //利用ajax读取xml， 不同于php直接操作文件
+				type: "GET",
+				url: "log.xml",
+				cache: false,
+				dataType: "xml",  //参数可参考ajax文档
+				success:function(xml){
+					$(xml).find('logB').each( function(){  // each函数访问数组所有项
+						var date = $(this).find('date').text(); //基本的XML节点寻找和读取
+						var contain = $(this).find('contain').text();
+						var logLine = '<tr><th>'+date+'</th><th>'+contain+'</th></tr>';
+						var logLineOdd = '<tr class="odd"><th>'+date+'</th><th>'+contain+'</th></tr>';
+						if(mb>0){
+							$('#logTable').append(logLine); // 加在后面 不替换或删除
+						}else{
+							$('#logTable').append(logLineOdd);
+						}
+						mb = mb*(-1);
+					});
+				}});
+		});
+	});
+	
+	
+	
+});
+</script>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Log Update</title>
+</head>
+
+<body style="font-family:微软雅黑,Arial,serif">
+<div id="update">
+<textarea id="log" cols="20" rows="3" style="background: #FBFBFB;border: 1px solid #E5E5E5;font-size: 20px;"></textarea>
+<br />
+<input id="subbtn" type="submit" style="font-size:10px" value="UPDATE" />
+</div>
+<br><br>
+<div id="logContainer">
+<b>旧版的TXT日志:</b><a href="http://mabo8954.170.5ghl.cn/demo/log.txt">入口</a><br><br>
+<b>新版XML日志记录:</b><br><br>
+<table id='logTable'>
+</table>
+</div>
+<br>
+<div id="footer" style="background-color:#000000; color:#FFFFFF; width:60%">
+Thanks to awesome “Blue Dream”(TableCss) by <b>Teylor Feliz</b> from USA	<br>
+Thanks<img src="css/logo_jquery_215x53.gif"/img>and its incredible UI lib
+</div>
+</body>
+</html>
